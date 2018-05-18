@@ -23,12 +23,14 @@ public class TraLoiDAO {
         conn.close();
     }
     
-    public void updatetRecordTraLoi(int id,String ans,String username) throws SQLException, ClassNotFoundException{
-        Connection conn=SQL.getConnection();
-        String query="update TraLoi set Username=N'"+username+"', STTCauHoi="+id+", CauTraLoi=N'"+ans+"')";
-        Statement st=conn.createStatement();
-        st.executeUpdate(query);
-        conn.close();
+    public int updatetRecordTraLoi(int id,String ans,String username) throws SQLException, ClassNotFoundException{
+        int i;
+        try (Connection conn = SQL.getConnection()) {
+            String query="update TraLoi set CauTraLoi=N'"+ans+"' where Username=N'"+username+"' and STTCauHoi="+id;
+            Statement st=conn.createStatement();
+            i = st.executeUpdate(query);
+        }
+        return i;
     }
     
     public String getTraLoi(int i, String username) throws SQLException, ClassNotFoundException{
@@ -47,8 +49,8 @@ public class TraLoiDAO {
     }
     
     public boolean isInsert(int id, String username) throws SQLException, ClassNotFoundException{
-        TraLoiDAO dao=new TraLoiDAO();
-        String s= getTraLoi(id,username);
+        String s;
+        s = getTraLoi(id,username);
         if(s==null || s==""){
             return false;
         }
@@ -57,7 +59,13 @@ public class TraLoiDAO {
     
     /*public static void main(String[] args) throws SQLException, ClassNotFoundException{
         TraLoiDAO dao=new TraLoiDAO();
-        boolean s=dao.isInsert(1, "hs");
-        System.out.print(s);
+        //dao.setRecordTraLoi(5, "dsadsadsadas", "hs");
+        
+        //if(i==false)
+        //    dao.setRecordTraLoi(0, ans, username);
+        //String i=dao.getTraLoi(5, "dsadas");
+        boolean j=dao.isInsert(5, "hs");
+        System.out.print(j);
+
     }*/
 }

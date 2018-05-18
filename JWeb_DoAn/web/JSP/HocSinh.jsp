@@ -4,6 +4,11 @@
     Author     : Tuyen
 --%>
 
+<%@page import="myservlet.HocSinh"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="DAO.UserCurDAO"%>
 <%@page import="DAO.TraLoiDAO"%>
 <%@page import="DAO.TaiKhoanDAO"%>
 <%@page import="java.util.List"%>
@@ -33,6 +38,7 @@
             <%
                         CauHoiDAO dao=new CauHoiDAO();
                         TraLoiDAO tlDAO=new TraLoiDAO();
+                        UserCurDAO uDAO=new UserCurDAO();
                         //int stt=Integer.parseInt((request.getParameter("STT")));
                         int count=0;
                         if(request.getParameter("id")!=null){
@@ -44,6 +50,11 @@
                         ch.setNoiDung(dao.getNoiDung(count));
                         String tl= tlDAO.getTraLoi(count, user);
                         pageContext.setAttribute("ans",tl);
+                        if(uDAO.isHasUser(user)==false){
+                            uDAO.setCurrentIndex(count, user);
+                        } else{
+                            uDAO.updateCurrentIndex(user, count);
+                        }
                     %>
             <table>
                 <tr>

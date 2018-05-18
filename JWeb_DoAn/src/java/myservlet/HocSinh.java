@@ -7,6 +7,7 @@ package myservlet;
 
 import DAO.CauHoiDAO;
 import DAO.TraLoiDAO;
+import DAO.UserCurDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -77,20 +78,30 @@ public class HocSinh extends HttpServlet {
         String username=request.getParameter("username");
         TraLoiDAO tlDAO=new TraLoiDAO();
         CauHoiDAO dao=new CauHoiDAO();
+        UserCurDAO uDAO=new UserCurDAO();
+        
+        try {
+            if(tlDAO.isInsert(uDAO.getCurrentIndex(username), username)==false){
+                tlDAO.setRecordTraLoi(uDAO.getCurrentIndex(username), ans, username);
+            }
+            else{
+                tlDAO.updatetRecordTraLoi(uDAO.getCurrentIndex(username), ans, username);
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(HocSinh.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if(session!=null){  
             if(request.getParameter("id")!=null){
                 try {
                     if(dao.getSoCau()<count){
                         count=1;
-                        stt=count-1;
-                        tlDAO.setRecordTraLoi(stt, ans, username);
                     }
                     else if(count==0){
                         count=dao.getSoCau();
-                        stt=count+1;
                     }
                     else if(count==-1){
                         temp=1;
+                        //int a=dao.getSoCau();
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(HocSinh.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,16 +121,6 @@ public class HocSinh extends HttpServlet {
             RequestDispatcher dist=request.getRequestDispatcher("index.jsp");
             dist.forward(request, response);
         }
-        try {
-                if(tlDAO.isInsert(stt, username)==false){
-                    
-                }
-                else{
-                    tlDAO.updatetRecordTraLoi(stt, ans, username);
-                }
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(HocSinh.class.getName()).log(Level.SEVERE, null, ex);
-            }
     }
 }
     /**
