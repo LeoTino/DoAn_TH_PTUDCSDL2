@@ -8,28 +8,27 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet>
-        <servlet-name>Helloword</servlet-name>
-        <servlet-class>myservlet.Helloword</servlet-class>
+        <servlet-name>DangNhap</servlet-name>
+        <servlet-class>myservlet.DangNhap</servlet-class>
+        <welcome-file-list>index.jsp</welcome-file-list>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>*.htm</url-pattern>
+        <servlet-name>DangNhap</servlet-name>
+        <url-pattern>/dangnhap/</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>HocSinh</servlet-name>
+        <servlet-class>myservlet.HocSinh</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>Helloword</servlet-name>
-        <url-pattern>/Helloword</url-pattern>
+        <servlet-name>HocSinh</servlet-name>
+        <url-pattern>/cauhoi/</url-pattern>
+        
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>redirect.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>

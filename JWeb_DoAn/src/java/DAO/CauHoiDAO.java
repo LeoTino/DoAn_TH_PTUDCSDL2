@@ -8,6 +8,7 @@ package DAO;
 import Model.CauHoi;
 import DBconnect.SQL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,11 +56,39 @@ public class CauHoiDAO {
         return lst;
     }
     
-    
-    public static void main(String[] args) throws SQLException, ClassNotFoundException{
-        CauHoiDAO dao=new CauHoiDAO();
-        for(CauHoi ch:dao.getAll()){
-            System.out.println(ch.getSTT()+" - "+ch.getNoiDung()+" - "+ch.getTraLoiDung()+"\n");
+    public String getNoiDung(int i) throws SQLException, ClassNotFoundException{
+        Connection conn=SQL.getConnection();
+        //int z=Integer.parseInt(i);
+        String query="SELECT NoiDungCauHoi from CauHoi where STTCauHoi="+i;
+        ResultSet rs=null;
+        Statement st=conn.createStatement();
+        rs=st.executeQuery(query);
+        String ch="NULL";
+        while(rs.next()){
+            ch=rs.getString("NoiDungCauHoi");
         }
+        rs.close();
+        return ch;
     }
+    
+    public int getSoCau() throws SQLException, ClassNotFoundException{
+        Connection conn=SQL.getConnection();
+        //int z=Integer.parseInt(i);
+        String query="select count(STTCauHoi) as STT  from  CauHoi";
+        ResultSet rs=null;
+        Statement st=conn.createStatement();
+        rs=st.executeQuery(query);
+        int ch=0;
+        while(rs.next()){
+            ch=rs.getInt("STT");
+        }
+        rs.close();
+        return ch;
+    }
+    /*public static void main(String[] args) throws SQLException, ClassNotFoundException{
+        CauHoiDAO dao=new CauHoiDAO();
+        int i=dao.getSoCau();
+        System.out.println(i);
+    }*/
+
 }
