@@ -5,8 +5,15 @@
  */
 package myservlet;
 
+import DAO.CauHoiDAO;
+import DAO.TraLoiDAO;
+import DAO.UserCurDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Tuyen
  */
-@WebServlet(name = "GiaoVien", urlPatterns = {"/GiaoVien"})
+@WebServlet(urlPatterns = {"/bailam"})
 public class GiaoVien extends HttpServlet {
 
     /**
@@ -58,7 +65,26 @@ public class GiaoVien extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int count=0;
+        count=Integer.parseInt(request.getParameter("cauhoi"));
+        String hs=request.getParameter("hs");
+        String gv=request.getParameter("gv");
+        CauHoiDAO dao=new CauHoiDAO();
+        if(request.getParameter("cauhoi")!=null){
+            try {
+                if(dao.getSoCau()<count){
+                    count=1;
+                }
+                else if(count==0){
+                    count=dao.getSoCau();
+                }
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(HocSinh.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        RequestDispatcher dist;
+        dist = request.getRequestDispatcher("/JSP/Next.jsp?hs="+hs+"&gv="+gv+"&cauhoi="+count);
+        dist.forward(request, response);  
     }
 
     /**

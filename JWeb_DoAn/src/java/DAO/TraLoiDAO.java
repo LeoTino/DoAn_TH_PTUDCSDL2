@@ -48,6 +48,8 @@ public class TraLoiDAO {
         return ch;
     }
     
+    
+    
     public boolean isInsert(int id, String username) throws SQLException, ClassNotFoundException{
         String s;
         s = getTraLoi(id,username);

@@ -85,6 +85,21 @@ public class CauHoiDAO {
         rs.close();
         return ch;
     }
+    
+    public String getCauTraLoiChinhXac(int i) throws SQLException, ClassNotFoundException{
+        Connection conn=SQL.getConnection();
+        //int z=Integer.parseInt(i);
+        String query="SELECT CauTraLoiChinhXac from CauHoi where STTCauHoi="+i;
+        ResultSet rs=null;
+        Statement st=conn.createStatement();
+        rs=st.executeQuery(query);
+        String ch="NULL";
+        while(rs.next()){
+            ch=rs.getString("CauTraLoiChinhXac");
+        }
+        rs.close();
+        return ch;
+    }
     /*public static void main(String[] args) throws SQLException, ClassNotFoundException{
         CauHoiDAO dao=new CauHoiDAO();
         int i=dao.getSoCau();

@@ -4,9 +4,6 @@
     Author     : Tuyen
 --%>
 
-<%@page import="myservlet.HocSinh"%>
-<%@page import="java.util.logging.Logger"%>
-<%@page import="java.util.logging.Level"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="DAO.UserCurDAO"%>
 <%@page import="DAO.TraLoiDAO"%>
@@ -20,22 +17,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Student Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     </head>
     <body>
-        <%
-            String user=request.getParameter("username");
-            session = request.getSession(false);
-            if(user==null & session==null){
-                RequestDispatcher dist=request.getRequestDispatcher("/");
-                dist.forward(request, response);
-            }
-        %>
-        <h1>Xin chào:  ${param.username}</h1>
+        <div class="container">
+        <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+        <h1>Xin chào:  <a href="index.jsp">${param.username} (Student)</a></h1>
         <br>
+        <h4>
         <form action="cauhoi" method="get">
             <input type="hidden" name="username" value="${param.username}">
             <%
+                        String user=request.getParameter("username");
                         CauHoiDAO dao=new CauHoiDAO();
                         TraLoiDAO tlDAO=new TraLoiDAO();
                         UserCurDAO uDAO=new UserCurDAO();
@@ -62,7 +57,8 @@
                 </tr>
                 <br>
                 <tr>
-                    <% pageContext.setAttribute("NoiDung",ch.getNoiDung()); %> ${NoiDung}
+                    <% pageContext.setAttribute("NoiDung",ch.getNoiDung()); %> 
+                    <textarea readonly="true" class="form-control" rows="5" id="comment">${NoiDung}</textarea> 
                 </tr>
                 <br>
                 <tr>
@@ -70,16 +66,26 @@
                 </tr>        
                 <tr>
                 <br>
-                <input type="text" name="ans" value="${ans}">
+                <textarea class="form-control" rows="5" id="comment" type="text" name="ans">${ans}</textarea> 
+                <!--<input type="text" name="ans" value="${ans}" rows="5"-->
                 </tr>
                 <br>
                 <tr>
-                    <td><button type="submit" name='id' value="${STT-1}">Back</button></td>
-                    <td><button type="submit" name='id' value="${STT+1}">Next</button></td>
-                    <td><button type="submit" name="id" value="${-1}"> Logout </button></td>
+                    <div class="btn-group btn-group-justified">
+                    <div class="btn-group">
+                    <button class="btn btn-primary " type="submit" name='id' value="${STT-1}">Back</button>
+                    </div>
+                    <div class="btn-group">
+                    <button class="btn btn-primary " type="submit" name='id' value="${STT+1}">Next</button>
+                    </div>
+                    </div>
                 </tr>
 
             </table>
         </form>
+        </h4>
+        </div>
+        </div>
+        </div>
     </body>
 </html>

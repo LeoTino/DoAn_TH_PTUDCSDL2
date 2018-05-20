@@ -90,7 +90,10 @@ public class DangNhap extends HttpServlet {
             TaiKhoanDAO tk=new TaiKhoanDAO();
             if(tk.CheckLoginGiaoVien(name, pass)){
                 //i=0;
-                RequestDispatcher dist=request.getRequestDispatcher("user?username="+name);
+                HttpSession session;
+                session=request.getSession();  
+                session.setAttribute("username",name); 
+                RequestDispatcher dist=request.getRequestDispatcher("JSP/GiaoVien.jsp?username="+name);
                 dist.forward(request, response);
             }
             else if(tk.CheckLoginHocSinh(name, pass)){
